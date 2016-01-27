@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Templte with conditional logic.</title>
+</head>
+
+<body>
+    <h1><font color = "Blue">{{.name}}</font></h1>
+    <h2><font color = "LightBlue">{{.age}}<font></h2>
+    {{ if .Genius > 149 }}
+    <h3><font color = "Green">IQ is above 150.</font></h3>
+    {{else}}
+    <h3><font color = "Red">IQ is below 150.</font></h3>
+    {{end}}
+</body>
