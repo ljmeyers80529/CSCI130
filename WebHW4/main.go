@@ -31,4 +31,7 @@ func root(res http.ResponseWriter, req *http.Request) {
 	value := req.FormValue(key)
 	fmt.Println("Returned value = "+value)
 	io.WriteString(res, body)
+	if (req.Method == "GET") && (value != "") {
+		io.WriteString(res, "<h1>Value entered = " + value + "</h1>")
+	}
 }
