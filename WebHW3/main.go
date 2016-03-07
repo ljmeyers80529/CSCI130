@@ -12,7 +12,7 @@ import (
 
 var hdr string = "Content-Type"
 var cont string = "text/html; charset=utf-8"
-var body string = `<form method="POST">
+var body string = `<form method="GET">
 					<input type="text" name="n">
 					<input type="Submit">
 					</form>`
