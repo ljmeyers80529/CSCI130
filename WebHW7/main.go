@@ -1,4 +1,4 @@
-// web page homework #3
+// web page homework #7
 // larry meyere
 // 08-Mar-2016
 
@@ -13,7 +13,7 @@ import (
 func main() {
 	http.HandleFunc("/", root)
 	http.Handle("/favico.ico", http.NotFoundHandler())
-	http.ListenAndServe(":9000", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func root(res http.ResponseWriter, req *http.Request) {
