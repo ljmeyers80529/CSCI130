@@ -1,0 +1,31 @@
+// web page homework #1
+// larry meyere
+// 29-Feb-2016
+
+package main
+
+import (
+		"net/http"
+                "log"
+//		"io"
+		)
+
+var hdr string = "Content-Type"
+var cont string = "text/plain; charset=utf-8"
+
+func main() {
+	http.HandleFunc("/", root)
+	err := http.ListenAndServeTLS(":10443", "cert.pem", "key.pem", nil)
+        if err != nil {
+            log.Fatal(err)
+        }
+}
+
+func root(res http.ResponseWriter, req *http.Request) {
+	if req.URL.Path != "/" {
+		http.NotFound(res, req)
+		return
+	}
+	res.Header().Set(hdr, cont)
+	res.Write([]byte("This is a sample https server."))
+}
