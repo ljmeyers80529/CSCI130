@@ -11,7 +11,7 @@ import (
 		)
 
 var hdr string = "Content-Type"
-var cont string = "text/plain; charset=utf-8"
+var cont string = "text/html; charset=utf-8"
 
 func main() {
 	http.HandleFunc("/", root)
@@ -27,5 +27,6 @@ func root(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	res.Header().Set(hdr, cont)
-	res.Write([]byte("This is a sample https server."))
+	res.Write([]byte("<H1>This is a sample https server.</H1>"))
+        res.Write([]byte("<H2>This is served from local host</H2>"))
 }
