@@ -1,6 +1,6 @@
-// web page homework #1
+// web page homework for https web site.
 // larry meyere
-// 29-Feb-2016
+// 12-Mar-2016
 
 package main
 
