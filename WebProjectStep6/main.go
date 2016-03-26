@@ -29,26 +29,28 @@ func main() {
 func rootPage(res http.ResponseWriter, req *http.Request) {
     var cookState CookieState
     
-    myCookie := eatCookie(res, req)
+    myCookie, newCookie := eatCookie(res, req)
     if req.Method == "POST" {
         rebakeCookie(myCookie, req)
     }
     //
-    _, data, _ := partitionCookie(myCookie)
-    origValue := myCookie.Value
-    origUser := jsonDecodeInformation(data)
-    state := validCookie(myCookie)                      // simulates altering the cookie before validating the cookie.
-    alterValue := myCookie.Value;
-    _, data, _ = partitionCookie(myCookie)
-    alterUser := jsonDecodeInformation(data)
+    if !newCookie {
+        _, data, _ := partitionCookie(myCookie)
+        origValue := myCookie.Value
+        origUser := jsonDecodeInformation(data)
+        state := validCookie(myCookie)                      // simulates altering the cookie before validating the cookie.
+        alterValue := myCookie.Value;
+        _, data, _ = partitionCookie(myCookie)
+        alterUser := jsonDecodeInformation(data)
     //
-    cookState = CookieState {
-        OriginalCookieValue: origValue,
-        State: state,
-        AlteredCookieValue: alterValue,
-        OriginalData: origUser,
-        AlteredData: alterUser,
-        }
+        cookState = CookieState {
+            OriginalCookieValue: origValue,
+            State: state,
+            AlteredCookieValue: alterValue,
+            OriginalData: origUser,
+            AlteredData: alterUser,
+            }
+    }
     //
     tpl.Execute(res, cookState)
 }

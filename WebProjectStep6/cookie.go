@@ -8,13 +8,17 @@ import (
 var sessionCookie *http.Cookie
 var sessionCookieName string = "session-fino"
 
+
 //get an existing cookie or create "bake" a new cookie.
-func eatCookie(res http.ResponseWriter, req *http.Request) (*http.Cookie) {
+func eatCookie(res http.ResponseWriter, req *http.Request) (*http.Cookie, bool) {
+    var newCookie bool = false
+    
     myCookie, err := req.Cookie(sessionCookieName)
     if err != nil {
         myCookie = bakeNewCookie(res)
+        newCookie = true
     }
-    return myCookie
+    return myCookie, newCookie
 }
 
 // create a new cookie, set the initial value with an UUID

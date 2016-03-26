@@ -43,13 +43,20 @@ func hash(info string) string {
 func jsonDecodeInformation(value string) UserInformation {
     var data UserInformation
     
-    base64Decoded, err := base64.URLEncoding.DecodeString(value)
-    if err != nil {
-        log.Fatalln(err)
+    if value != "" {
+        base64Decoded, err := base64.URLEncoding.DecodeString(value)
+        if err != nil {
+            log.Fatalln(err)
+        }
+        err = json.Unmarshal([]byte(base64Decoded), &data)
+        if err != nil {
+            log.Fatalln(err)
+        }
+        return data
+    } else {
+        return UserInformation {
+                                Name: "",
+                                Age: 0,
+                                }
     }
-    err = json.Unmarshal([]byte(base64Decoded), &data)
-    if err != nil {
-        log.Fatalln(err)
-    }
-    return data
 }
