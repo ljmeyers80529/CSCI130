@@ -1,62 +1,45 @@
 package main
 
 import (
-        "net/http"
-        "strconv"
-        "log"
         "encoding/json"
         "encoding/base64"
         "crypto/sha256"
         "crypto/hmac"
         "io"
         "fmt"
+        "log"
         )
 
-type UserInformation struct {
-    Name string
-    Age int
-    }
-    
 var key string = "NotSoSecretKey"
 
-// marshal user information using JSON. Returns information in base 64 string and the HMAC verification encoding.
-func jsonEncodeInformation(req *http.Request) (string, string) {
-    a, _ := strconv.Atoi(req.FormValue("age"))
-    user := UserInformation {
-        Name: req.FormValue("username"),
-        Age: a,
-    }
-    encoded, err := json.Marshal(user)
+// marshal user information, convert to base 64 and get HMAC verfication code.
+func encodeUserInformation(userInfo UserInformation) (string, string) {
+    encoded, err := json.Marshal(userInfo)
     if err != nil {
         log.Fatalln(err)
     }
-    base64Encoded := base64.URLEncoding.EncodeToString(encoded)
-    return base64Encoded, hash(base64Encoded)
+    b64 := base64.URLEncoding.EncodeToString(encoded)
+    return b64, hash(b64)
 }
 
+// encode user information to be used for data validation.
 func hash(info string) string {
-    hash := hmac.New(sha256.New, []byte(key))
-    io.WriteString(hash, info)
-    return fmt.Sprintf("%x", hash.Sum(nil))
+    hmacHash := hmac.New(sha256.New, []byte(key))
+    io.WriteString(hmacHash, info)
+    return fmt.Sprintf("%x", hmacHash.Sum(nil))
 }
 
-func jsonDecodeInformation(value string) UserInformation {
+// decode base 64, json information back into noremal format.
+func decodeUserInformation(value string) UserInformation {
     var data UserInformation
     
-    if value != "" {
-        base64Decoded, err := base64.URLEncoding.DecodeString(value)
-        if err != nil {
-            log.Fatalln(err)
-        }
-        err = json.Unmarshal([]byte(base64Decoded), &data)
-        if err != nil {
-            log.Fatalln(err)
-        }
-        return data
-    } else {
-        return UserInformation {
-                                Name: "",
-                                Age: 0,
-                                }
+    b64, err := base64.URLEncoding.DecodeString(value)
+    if err != nil {
+        log.Fatalln(err)
     }
+    err = json.Unmarshal([]byte(b64), &data)
+    if err != nil {
+        log.Fatalln(err)
+    }
+    return data
 }

@@ -15,14 +15,21 @@
     <br>
     {{if .OriginalData.Name}}
     <h5>Original Cookie information: {{.OriginalCookieValue}}</h5>
-    <h4>Name: {{.OriginalData.Name}}
-        Age:{{.OriginalData.Age}}
-    <h5>Altered Cookie Information: {{.AlteredCookieValue}}</h5>
-    <h4>Name: {{.AlteredData.Name}}
-        Age:{{.AlteredData.Age}}
+    <h4>Name: {{.OriginalData.Name}}<br>
+        Age:{{.OriginalData.Age}}</h4><br>
+    <h5>Altered Cookie Information: {{.AlteredCookieValue}}</h5><br>
+    <h4>Name: {{.AlteredData.Name}}<br>
+        Age:{{.AlteredData.Age}}</h4><br>
     <h5>Cookie State: {{.State}}</h5>
     {{else}}
     <h3>No data.</h3>
     {{end}}
   </body>
 </html>
+
+
+    <!--
+    <h5>Altered Cookie Information: {{.AlteredCookieValue}}</h5>
+    <h4>Name: {{.AlteredData.Name}}
+        Age:{{.AlteredData.Age}}</h4>
+    -->

@@ -8,14 +8,6 @@ import (
 
 var tpl *template.Template
 
-type CookieState struct {
-    OriginalCookieValue string
-    AlteredCookieValue string
-    State string
-    OriginalData UserInformation
-    AlteredData UserInformation
-    }
-
 func init() {
     tpl = template.Must(template.ParseGlob("htmlFiles/*.html"))
 }
@@ -28,30 +20,31 @@ func main() {
 
 // process root / top page.
 func rootPage(res http.ResponseWriter, req *http.Request) {
-    var cookState CookieState
-    
-    myCookie := eatCookie(res, req)
+    sessionCookie := retrieveCookie(res, req)
     if req.Method == "POST" {
-        rebakeCookie(myCookie, req)
+        updateCookie(req, sessionCookie)
+    }
+    http.SetCookie(res, sessionCookie)
+    //
+    cookieInfo := cookieInformation {
+        OriginalCookieValue: sessionCookie.Value,
+        OriginalData: decodeUserInformation(strings.Split(sessionCookie.Value, "|")[1]),
+    }
+    fields := strings.Split(sessionCookie.Value,"|")
+    ui := decodeUserInformation(fields[1])
+    ui.Name = ui.Name + "1234"
+    fields[1],_ = encodeUserInformation(ui)
+    sessionCookie.Value = fields[0] + "|" + fields[1] + "|" + fields[2]
+    
+    var cookieState = "False"
+    if isCookieInformationValid(sessionCookie) {
+        cookieState = "True"
     }
     //
-    if strings.Contains(myCookie.Value, "|") {
-        _, data, _ := partitionCookie(myCookie)
-        origValue := myCookie.Value
-        origUser := jsonDecodeInformation(data)
-        state := validCookie(myCookie)                      // simulates altering the cookie before validating the cookie.
-        alterValue := myCookie.Value;
-        _, data, _ = partitionCookie(myCookie)
-        alterUser := jsonDecodeInformation(data)
-    //
-        cookState = CookieState {
-            OriginalCookieValue: origValue,
-            State: state,
-            AlteredCookieValue: alterValue,
-            OriginalData: origUser,
-            AlteredData: alterUser,
-            }
-    }
-    //
-    tpl.Execute(res, cookState)
+        cookieInfo.AlteredCookieValue = sessionCookie.Value
+        cookieInfo.AlteredData = decodeUserInformation(strings.Split(sessionCookie.Value, "|")[1])
+        cookieInfo.State = cookieState
+    
+    
+    tpl.ExecuteTemplate(res, "root.html", cookieInfo)
 }
