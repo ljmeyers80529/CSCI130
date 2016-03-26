@@ -3,6 +3,7 @@ package main
 import (
     "net/http"
     "html/template"
+    "strings"
     )
 
 var tpl *template.Template
@@ -29,12 +30,12 @@ func main() {
 func rootPage(res http.ResponseWriter, req *http.Request) {
     var cookState CookieState
     
-    myCookie, newCookie := eatCookie(res, req)
+    myCookie := eatCookie(res, req)
     if req.Method == "POST" {
         rebakeCookie(myCookie, req)
     }
     //
-    if !newCookie {
+    if strings.Contains(myCookie.Value, "|") {
         _, data, _ := partitionCookie(myCookie)
         origValue := myCookie.Value
         origUser := jsonDecodeInformation(data)

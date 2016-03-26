@@ -10,15 +10,12 @@ var sessionCookieName string = "session-fino"
 
 
 //get an existing cookie or create "bake" a new cookie.
-func eatCookie(res http.ResponseWriter, req *http.Request) (*http.Cookie, bool) {
-    var newCookie bool = false
-    
+func eatCookie(res http.ResponseWriter, req *http.Request) *http.Cookie {
     myCookie, err := req.Cookie(sessionCookieName)
     if err != nil {
         myCookie = bakeNewCookie(res)
-        newCookie = true
     }
-    return myCookie, newCookie
+    return myCookie
 }
 
 // create a new cookie, set the initial value with an UUID
