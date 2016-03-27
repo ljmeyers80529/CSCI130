@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body>
+    <h1>This is step 7 of a web project. Adding user login.</h1>
+    {{if .OriginalData.LoggedIn}}
+        <a href="/logout">Please Logout</a><br><br>
+    {{end}}
+        <form method="POST">
+        Name:&nbsp<input type = "text" name="username"><br>
+        &nbsp&nbsp&nbspAge:&nbsp<input type = "number" name="age"><br><br>
+        <input type = "Submit">
+        </form>
+        <br>
+        {{if .OriginalData.Name}}
+            <h5>Cookie information: {{.OriginalCookieValue}}</h5>
+            <h4>Name: {{.OriginalData.Name}}<br>
+            Age:{{.OriginalData.Age}}<br>
+            Logged In: {{.OriginalData.LoggedIn}}</h4><br>
+            <h5>Cookie Valid: {{.State}}</h5>
+        {{else}}
+            <h3>No data.</h3>
+        {{end}}
+  </body>
+</html>
