@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body>
+    <div id='tDiv'></div>
+    <script>
+        var eleDiv = document.querySelector('#tDiv');
+        var list = ['element #3', 'element #1', 'element #4','element #2'];
+        var eleUL = document.createElement("ul");
+        for (var i=0; i < list.length; i++) {
+            var eleLI = document.createElement('li');
+            eleLI.innerText = list[i];
+            eleUL.appendChild(eleLI);
+        }
+        eleDiv.appendChild(eleUL);
+    </script>
+  </body>
+</html>
