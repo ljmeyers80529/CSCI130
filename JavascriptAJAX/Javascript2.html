@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body>
+    <div id='tDiv'>Click on an element.</div>
+    <script>
+        var eleDiv = document.querySelector('#tDiv');
+        var list = ['element #3', 'element #1', 'element #4','element #2'];
+        var eleUL = document.createElement("ul");
+        for (var i=0; i < list.length; i++) {
+            var eleLI = document.createElement('li');
+            eleLI.innerText = list[i];
+            eleUL.appendChild(eleLI);
+        }
+        eleDiv.appendChild(eleUL);
+        
+        function listClick(event) {
+            alert('List item clicked: ' + event.target.innerHTML);
+        }
+        
+        var eleList = document.querySelectorAll('li');
+        
+        for(var i = 0; i < eleList.length; i++) {
+            eleList[i].addEventListener('click', listClick);
+        }
+    </script>
+  </body>
+</html>
