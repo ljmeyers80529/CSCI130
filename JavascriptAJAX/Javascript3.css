@@ -1,0 +1,47 @@
+html, body, div, img {
+	padding: 0;
+    border: 0;
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+body {
+	display: flex;
+    align-items: flex-end;
+}
+html {
+	background-image: url('Java3Imgs/6.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+	background-attachment: fixed;
+    transition: background-image 1s ease;
+}
+#images {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+div {
+	background-color: rgba(0,0,0,.3);
+}
+img {
+	width: 75px;
+	margin: 5px;
+	border: 2px solid black;
+}
+img:hover {
+	opacity: .5;
+}
+#quote {
+	position: fixed;
+	top: 88%;
+	left: 2%;
+	color: white;
+}
+
+	
